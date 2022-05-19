@@ -34,9 +34,28 @@ namespace N_Puzzle_Solver
             Console.WriteLine($"#Dequeues: {dequeus}");
         }
 
-        public static void TraversedSolve(ref State state)
+        public static void BFsSolve(ref State state)
         {
-            throw new NotImplementedException();
+            Queue<State> queue = new Queue<State>();
+
+            queue.Enqueue(state);
+
+            int dequeus = 0;
+            while (state.HScore > 0)
+            {
+
+                State.visitedNodes.Add(state.Hash());
+                state = queue.Dequeue();
+                dequeus++;
+
+                foreach (var child in state.GenerateChildren())
+                {
+                    if (!State.visitedNodes.Contains(child.Hash()))
+                        queue.Enqueue(child);
+                }
+            }
+
+            Console.WriteLine($"#Dequeues: {dequeus}");
         }
     }
 }

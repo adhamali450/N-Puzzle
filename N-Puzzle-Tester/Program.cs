@@ -113,26 +113,31 @@ void getHeuristicFunction(ref HeuristicFunction function)
         Console.WriteLine("Choose a Heuristic function");
         Console.WriteLine("[1]: Manhatten distance");
         Console.WriteLine("[2]  Hamming distance");
+        Console.WriteLine("[3]  BFS");
+
 
         try { heuristicChoice = int.Parse(Console.ReadLine()); }
         catch (Exception) { }
 
-    } while (!new int[] { 1, 2 }.Contains(heuristicChoice));
+    } while (!new int[] { 1, 2,3 }.Contains(heuristicChoice));
 
     if (heuristicChoice == 1) function = HeuristicFunction.ManhattenDistance;
     else if (heuristicChoice == 2) function = HeuristicFunction.HammingDistance;
+    else if (heuristicChoice == 3) function = HeuristicFunction.BFS;
 }
 
 
 void getSolveTime(string fileName, HeuristicFunction fn)
 {
+    Console.WriteLine(fileName);
     Stopwatch watch = new Stopwatch();
     watch.Start();
 
     var state = Utils.FetchPuzzle(fileName, fn);
-
-    Solver.PrioritySolve(ref state);
-
+    if (fn == HeuristicFunction.BFS)
+        Solver.BFsSolve(ref state);
+    else
+        Solver.PrioritySolve(ref state);
     watch.Stop();
 
     State.visitedNodes.Clear();

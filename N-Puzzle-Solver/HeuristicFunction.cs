@@ -3,6 +3,8 @@
     public enum HeuristicFunction
     {
         ManhattenDistance,
-        HammingDistance
+        HammingDistance,
+        BFS
+        
     }
 }

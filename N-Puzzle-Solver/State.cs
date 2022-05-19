@@ -36,7 +36,7 @@ namespace N_Puzzle_Solver
         {
             DistanceFunction = distanceFunction;
 
-            if(DistanceFunction == HeuristicFunction.ManhattenDistance)
+            if(DistanceFunction == HeuristicFunction.ManhattenDistance || DistanceFunction == HeuristicFunction.BFS)
                 HScore = HscoreForManhattan();
             else if(DistanceFunction == HeuristicFunction.HammingDistance)
                 HScore = HscoreForHamming();
@@ -57,7 +57,7 @@ namespace N_Puzzle_Solver
 
             DistanceFunction = distanceFunction;
 
-            if (DistanceFunction == HeuristicFunction.ManhattenDistance)
+            if (DistanceFunction == HeuristicFunction.ManhattenDistance || DistanceFunction == HeuristicFunction.BFS)
             {
                 var tileMovedGoal = reshape(Content[tileMovedIndex] - 1);
 
@@ -72,8 +72,18 @@ namespace N_Puzzle_Solver
             }
             else if (DistanceFunction == HeuristicFunction.HammingDistance)
             {
-                // Saied to 
-                // Handle hamming distance in O(1) after the initial state
+                
+                if (content[tileMovedIndex] == tileMovedIndex+1)
+                    lastHScore = lastHScore - 1;
+                if (blankIndex+1 == content[tileMovedIndex])
+                    lastHScore = lastHScore + 1;
+                if (blankIndex == Size-1)
+                    lastHScore = lastHScore - 1;
+                if (tileMovedIndex == Size - 1)
+                    lastHScore = lastHScore + 1;
+                HScore = lastHScore;
+                
+
             }
 
             GScore = LastGScore + 1;
@@ -204,6 +214,7 @@ namespace N_Puzzle_Solver
             int h = 0;
             for (int i = 0; i < Size - 1; i++)
             {
+
                 if (Content[i] != i + 1)
                     h++;
             }
